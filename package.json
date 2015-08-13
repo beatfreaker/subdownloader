@@ -1,0 +1,32 @@
+{
+  "name": "subdownloader",
+  "title": "subdownloader.js",
+  "version": "1.0.0",
+  "description": "Painless subtitles downloader",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": {
+    "name": "Chintan Radia",
+	"email": "radiachints1512@gmail.com",
+	"url": "http://beatfreaker.github.io/"
+  },
+  "license": "ISC",
+  "preferGlobal": true,
+  "bin": {
+    "subdownload": "subdownloader.js"
+  },
+  "keywords": [
+    "subtitle",
+    "downloader"
+  ],
+  "dependencies": {
+    "crypto": "0.0.3",
+    "fs": "0.0.2",
+    "http": "0.0.0",
+    "path": "^0.11.14",
+    "progress": "^1.1.8",
+    "q": "^1.4.1",
+    "video-extensions": "^1.0.0"
+  }
+}
