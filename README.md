@@ -22,4 +22,4 @@ Note : This module uses [SubDB](http://thesubdb.com/) to download subtitles.
 
 ## License
 
-MIT © (Chintan Radia)(http://beatfreaker.github.io/)
+MIT © [Chintan Radia](http://beatfreaker.github.io/)
