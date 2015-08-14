@@ -14,5 +14,8 @@ npm install subdownloader
 - Execute `npm link`
 - Now navigate to any folder where movies or TV series files are present through command prompt and execute `subdownload` command and let all the magic happens.
 
+# Demo
 
-Note : The module uses [SubDB](http://thesubdb.com/) to download subtitles.
+![Demo image](https://github.com/beatfreaker/subdownloader/blob/master/demo/demo.gif)
+
+Note : This module uses [SubDB](http://thesubdb.com/) to download subtitles.
