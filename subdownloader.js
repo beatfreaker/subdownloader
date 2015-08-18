@@ -7,16 +7,18 @@ var http = require('http');
 var Q = require('q');
 var progressBar = require('progress');
 var videoExtensions = require('video-extensions');
+var chalk = require('chalk');
 var p = process.cwd();
 var extns = Object.create(null);
 var filesArray = [];
+var param = process.argv.slice(2);
 
 videoExtensions.forEach(function(el){
 	el = 
 	extns[el] = true;
 });
 
-var getFileList = function() {
+var getFileList = function () {
 	var fileList;
 	var counter = 1;
 	var defered = Q.defer();
@@ -24,25 +26,38 @@ var getFileList = function() {
 		if (err) {
 			throw err;
 		}
-		fileList = files.filter(function (file) {
-			if(fs.statSync(file).isFile() && path.extname(file).slice(1).toLowerCase() in extns) {
-				return true;
-			} else {
-				return false;
-			}
-		});
-		fileList.forEach(function (file) {
-			filesArray.push(file);
-			counter++;
-			if(counter > fileList.length) {
-				defered.resolve(filesArray);
-			}
-		});
+		if(param.length == 0) {
+			fileList = filterFiles(files);
+		} else {
+			fileList = filterFiles(param);
+		}
+		if(fileList) {
+			fileList.forEach(function (file) {
+				filesArray.push(file);
+				counter++;
+				if(counter > fileList.length) {
+					defered.resolve(filesArray);
+				}
+			});
+		}
 	});
 	return defered.promise;
 }
 
-function processFiles(fileList, index) {
+var filterFiles = function (files) {
+	try {
+		return files.filter(function (file) {
+			if(fs.statSync(file).isFile() && path.extname(file).slice(1).toLowerCase() in extns)
+				return true;
+			else
+				return false;
+		});
+	} catch (err) {
+		console.log("Please check if all the file name given exists or not.");
+	}
+}
+
+var processFiles = function (fileList, index) {
 	return Q.resolve('val').then(function(value){
 		if(index == fileList.length) {
 			return 'done';
@@ -57,7 +72,7 @@ function processFiles(fileList, index) {
 	});
 }
 
-var getHash = function(file) {
+var getHash = function (file) {
 	var defered = Q.defer();
 	var shasum = crypto.createHash('md5');
 	var s = fs.createReadStream(file, {start: 0, end: (64*1024)-1});
@@ -78,10 +93,10 @@ var getHash = function(file) {
 	return defered.promise;
 }
 
-var downloadSubtitle = function(fileName, hash) {
+var downloadSubtitle = function (fileName, hash) {
 	var defered = Q.defer();
 	var srtFileName = path.basename(fileName, path.extname(fileName)) + '.srt';
-	var progressBarMessage = 'Downloading ' + srtFileName + ' [:bar] :percent :etas | :current of :total bytes';
+	var progressBarMessage = 'Downloading ' + chalk.bgBlue.bold(srtFileName) + ' [:bar] :percent :etas | :current of :total bytes';
 	var finalData = '';
 	var green = '\u001b[42m \u001b[0m';
 	var options = {
@@ -94,7 +109,7 @@ var downloadSubtitle = function(fileName, hash) {
 		var len = parseInt(res.headers['content-length'], 10);
 		var bar = new progressBar(progressBarMessage, {
 			complete: green,
-			incomplete: ' ',
+			incomplete: '-',
 			width: 10,
 			total: len
 	  	});
@@ -114,7 +129,7 @@ var downloadSubtitle = function(fileName, hash) {
 					defered.resolve(fileName);
 				});
 	  		} else {
-	  			console.log('Sorry no subitles were found for ====> ' + fileName);
+	  			console.log('Sorry no subitles were found for ====> ' + chalk.bgRed.bold(fileName));
 	  			console.log('\n---------------------------------------------------------------------------------------------\n');
 	  			console.log();
 	  			defered.resolve("error");
@@ -124,4 +139,4 @@ var downloadSubtitle = function(fileName, hash) {
 	return defered.promise;
 }
 
-getFileList().then(function(data){processFiles(data,0);});
+getFileList().then(function (data){processFiles(data,0);});

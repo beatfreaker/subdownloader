@@ -8,8 +8,8 @@
   },
   "author": {
     "name": "Chintan Radia",
-	"email": "radiachints1512@gmail.com",
-	"url": "http://beatfreaker.github.io/"
+    "email": "radiachints1512@gmail.com",
+    "url": "http://beatfreaker.github.io/"
   },
   "license": "ISC",
   "preferGlobal": true,
@@ -21,6 +21,7 @@
     "downloader"
   ],
   "dependencies": {
+    "chalk": "^1.1.0",
     "crypto": "0.0.3",
     "fs": "0.0.2",
     "http": "0.0.0",
