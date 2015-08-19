@@ -14,6 +14,18 @@ npm install subdownloader
 - Execute `npm link`
 - Now navigate to any folder where movies or TV series files are present through command prompt and execute `subdownload` command and let all the magic happens.
 
+## Options
+
+- To download subtitles for all the movies in a folder execute.
+
+  `subdownload`
+- To download subtitles for single movie execute.
+
+  `subdownload "Movie Name"`
+- To download subtitles for more then one movie but not all movies in a folder execute.
+  
+  `subdownload "Movie 1" "Movie 2" .... "Movie n"`
+
 ## Demo
 
 ![Demo image](https://github.com/beatfreaker/subdownloader/blob/master/demo/demo.gif)
