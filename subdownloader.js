@@ -13,9 +13,8 @@ var extns = Object.create(null);
 var filesArray = [];
 var param = process.argv.slice(2);
 
-videoExtensions.forEach(function(el){
-	el = 
-	extns[el] = true;
+videoExtensions.forEach(function(el) {
+	el = extns[el] = true;
 });
 
 var getFileList = function () {
@@ -26,7 +25,7 @@ var getFileList = function () {
 		if (err) {
 			throw err;
 		}
-		if(param.length == 0) {
+		if(param.length === 0) {
 			fileList = filterFiles(files);
 		} else {
 			fileList = filterFiles(param);
@@ -42,7 +41,7 @@ var getFileList = function () {
 		}
 	});
 	return defered.promise;
-}
+};
 
 var filterFiles = function (files) {
 	try {
@@ -55,7 +54,7 @@ var filterFiles = function (files) {
 	} catch (err) {
 		console.log("Please check if all the file name given exists or not.");
 	}
-}
+};
 
 var processFiles = function (fileList, index) {
 	return Q.resolve('val').then(function(value){
@@ -70,7 +69,7 @@ var processFiles = function (fileList, index) {
 			});
 		}
 	});
-}
+};
 
 var getHash = function (file) {
 	var defered = Q.defer();
@@ -81,7 +80,7 @@ var getHash = function (file) {
 	});
 	s.on('end', function() {
 		var stats = fs.statSync(file);
-		var sNew = fs.createReadStream(file, {start: stats['size']-(64*1024), end: stats['size']-1});
+		var sNew = fs.createReadStream(file, {start: stats.size - (64*1024), end: stats.size - 1});
 		sNew.on('data', function(d) {
 		  shasum.update(d);
 		});
@@ -91,7 +90,7 @@ var getHash = function (file) {
 		});
 	});
 	return defered.promise;
-}
+};
 
 var downloadSubtitle = function (fileName, hash) {
 	var defered = Q.defer();
@@ -137,6 +136,6 @@ var downloadSubtitle = function (fileName, hash) {
 	  	});
 	});
 	return defered.promise;
-}
+};
 
 getFileList().then(function (data){processFiles(data,0);});
