@@ -3,6 +3,9 @@
   "title": "subdownloader.js",
   "version": "1.0.1",
   "description": "Painless subtitles downloader",
+  "license": "MIT",
+  "preferGlobal": true,
+  "repository": "beatfreaker/subdownloader",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,8 +14,6 @@
     "email": "radiachints1512@gmail.com",
     "url": "http://beatfreaker.github.io/"
   },
-  "license": "ISC",
-  "preferGlobal": true,
   "bin": {
     "subdownload": "subdownloader.js"
   },

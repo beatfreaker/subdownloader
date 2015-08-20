@@ -1,5 +1,5 @@
 #! /usr/bin/env node
-
+'use strict';
 var crypto = require('crypto');
 var fs = require('fs');
 var path = require('path');
@@ -12,7 +12,6 @@ var p = process.cwd();
 var extns = Object.create(null);
 var filesArray = [];
 var param = process.argv.slice(2);
-
 videoExtensions.forEach(function(el) {
 	el = extns[el] = true;
 });
@@ -46,10 +45,12 @@ var getFileList = function () {
 var filterFiles = function (files) {
 	try {
 		return files.filter(function (file) {
-			if(fs.statSync(file).isFile() && path.extname(file).slice(1).toLowerCase() in extns)
+			if(fs.statSync(file).isFile() && path.extname(file).slice(1).toLowerCase() in extns) {
 				return true;
-			else
+			}
+			else {
 				return false;
+			}
 		});
 	} catch (err) {
 		console.log("Please check if all the file name given exists or not.");
@@ -104,7 +105,7 @@ var downloadSubtitle = function (fileName, hash) {
 	  method: 'GET',
 	  headers: {'user-agent': 'SubDB/1.0'}
 	};
-	var req = http.get(options, function(res) {
+	http.get(options, function(res) {
 		var len = parseInt(res.headers['content-length'], 10);
 		var bar = new progressBar(progressBarMessage, {
 			complete: green,
