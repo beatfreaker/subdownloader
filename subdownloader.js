@@ -12,6 +12,7 @@ var p = process.cwd();
 var extns = Object.create(null);
 var filesArray = [];
 var param = process.argv.slice(2);
+var deepString = "-deep";
 videoExtensions.forEach(function(el) {
 	el = extns[el] = true;
 });
@@ -96,6 +97,7 @@ var getHash = function (file) {
 var downloadSubtitle = function (fileName, hash) {
 	var defered = Q.defer();
 	var srtFileName = path.basename(fileName, path.extname(fileName)) + '.srt';
+	var srtFilePathName = path.dirname(fileName) + "/" + srtFileName;
 	var progressBarMessage = 'Downloading ' + chalk.bgBlue.bold(srtFileName) + ' [:bar] :percent :etas | :current of :total bytes';
 	var finalData = '';
 	var green = '\u001b[42m \u001b[0m';
@@ -121,7 +123,7 @@ var downloadSubtitle = function (fileName, hash) {
 	  	});
 	  	res.on('end',function(){
 	  		if(res.statusCode === '200') {
-	  			fs.writeFile(srtFileName, finalData,function(err){
+	  			fs.writeFile(srtFilePathName, finalData,function(err){
 					if(err) {
 						console.log(err);
 					}
@@ -139,4 +141,25 @@ var downloadSubtitle = function (fileName, hash) {
 	return defered.promise;
 };
 
-getFileList().then(function (data){processFiles(data,0);});
+var getDeepFiles = function(currentDir, callback) {
+  fs.readdirSync(currentDir).forEach(function(name){
+    var filePath = path.join(currentDir, name);
+        var stat = fs.statSync(filePath);
+        if (stat.isFile() && path.extname(filePath).slice(1).toLowerCase() in extns) {
+            filesArray.push(filePath);
+        } else if (stat.isDirectory()) {
+            getDeepFiles(filePath);
+        }
+  });
+};
+
+var getPara = function() {
+	if(param.indexOf(deepString) > -1) {
+		getDeepFiles(p);
+		processFiles(filesArray,0);
+	} else {
+		getFileList().then(function (data){processFiles(data,0);});
+	}
+};
+
+getPara();
