@@ -15,7 +15,8 @@
     "url": "http://beatfreaker.github.io/"
   },
   "bin": {
-    "subdownload": "subdownloader.js"
+    "subdownload": "subdownloader.js",
+	"sd": "subdownloader.js"
   },
   "keywords": [
     "subtitle",
