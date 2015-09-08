@@ -20,7 +20,9 @@
   },
   "keywords": [
     "subtitle",
-    "downloader"
+    "downloader",
+    "cli",
+    "movies"
   ],
   "dependencies": {
     "chalk": "^1.1.0",
