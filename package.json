@@ -16,7 +16,7 @@
   },
   "bin": {
     "subdownload": "subdownloader.js",
-	"sd": "subdownloader.js"
+    "sd": "subdownloader.js"
   },
   "keywords": [
     "subtitle",
