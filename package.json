@@ -7,7 +7,7 @@
   "preferGlobal": true,
   "repository": "beatfreaker/subdownloader",
   "scripts": {
-    "test": "mocha"
+    "test": "node test/test.js"
   },
   "author": {
     "name": "Chintan Radia",
@@ -35,6 +35,6 @@
     "video-extensions": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^1.19.0"
+    "tape": "^4.2.0"
   }
 }
