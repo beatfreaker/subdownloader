@@ -5,7 +5,7 @@ Downloading subtitle for one or more files is just a command away. It can get an
 
 ## Installation
 ```
-npm install subdownloader
+npm install subdownloader -g
 ```
 
 ## How to use
@@ -13,6 +13,7 @@ npm install subdownloader
 - After installation navigate to the folder `cd subdownloader`
 - Execute `npm link`
 - Now navigate to any folder where movies or TV series files are present through command prompt and execute `subdownload` command and let all the magic happens.
+- `sd` shorthand command. You can use `sd` instead of `subdownload`
 
 ## Options
 
@@ -27,7 +28,8 @@ npm install subdownloader
   `subdownload "Movie 1" "Movie 2" .... "Movie n"`
 - To enable deep download means to download subtitles for files in a folder as well as subfolders.
 	
-	`subdownload -deep`
+	`subdownload --deep`
+- Use `subdownload --help` for listing all the options available.
 
 ## Demo
 

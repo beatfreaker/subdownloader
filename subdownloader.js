@@ -8,11 +8,25 @@ var Q = require('q');
 var ProgressBar = require('progress');
 var videoExtensions = require('video-extensions');
 var chalk = require('chalk');
+var meow = require('meow');
 var p = process.cwd();
 var extns = Object.create(null);
 var filesArray = [];
-var param = process.argv.slice(2);
-var deepString = '-deep';
+
+var cli = meow({
+	help: [
+		'Help\n',
+		'  > subdownload\n',
+		'		To download subtitles for all the files present in current folder\n',
+		'  > subdownload --deep\n',
+		'		To download subtitles for all the files present in current folder as well as in subfolder\n',
+		'  > subdownload "File Name.mkv"\n',
+		'		To download subtitles for specific file\n',
+		'  > subdownload "File1.mkv" "File2.avi" .... "Filen"\n',
+		'		To download subtitles for more then one file\n'
+	]
+});
+
 videoExtensions.forEach(function (el) {
 	el = extns[el] = true;
 });
@@ -41,10 +55,10 @@ var getFileList = function () {
 		if (err) {
 			throw err;
 		}
-		if (param.length === 0) {
+		if (cli.input.length === 0) {
 			fileList = filterFiles(files);
 		} else {
-			fileList = filterFiles(param);
+			fileList = filterFiles(cli.input);
 		}
 		if (fileList) {
 			fileList.forEach(function (file) {
@@ -156,7 +170,7 @@ var getDeepFiles = function (currentDir) {
 };
 
 var getPara = function () {
-	if (param.indexOf(deepString) > -1) {
+	if (cli.flags.deep) {
 		getDeepFiles(p);
 		processFiles(filesArray, 0);
 	} else {
