@@ -1,1 +1,5 @@
+sudo: false
 language: node_js
+before_script: chmod -R 0777 .
+notifications:
+  email: false
