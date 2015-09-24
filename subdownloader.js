@@ -6,11 +6,10 @@ var path = require('path');
 var http = require('http');
 var Q = require('q');
 var ProgressBar = require('progress');
-var videoExtensions = require('video-extensions');
+var isVideo = require('is-video');
 var chalk = require('chalk');
 var meow = require('meow');
 var p = process.cwd();
-var extns = Object.create(null);
 var filesArray = [];
 
 var cli = meow({
@@ -27,20 +26,10 @@ var cli = meow({
 	]
 });
 
-videoExtensions.forEach(function (el) {
-	el = extns[el] = true;
-});
-
 var filterFiles = function (files) {
 	try {
 		return files.filter(function (file) {
-			var returnMessage = false;
-			if (fs.statSync(file).isFile() && path.extname(file).slice(1).toLowerCase() in extns) {
-				returnMessage = true;
-			} else {
-				returnMessage = false;
-			}
-			return returnMessage;
+			return fs.statSync(file).isFile() && isVideo(file);
 		});
 	} catch (err) {
 		console.log('Please check if all the file name given exists or not.');
@@ -161,7 +150,7 @@ var getDeepFiles = function (currentDir) {
 	fs.readdirSync(currentDir).forEach(function (name) {
 		var filePath = path.join(currentDir, name);
 		var stat = fs.statSync(filePath);
-		if (stat.isFile() && path.extname(filePath).slice(1).toLowerCase() in extns) {
+		if (stat.isFile() && isVideo(filePath)) {
 			filesArray.push(filePath);
 		} else if (stat.isDirectory()) {
 			getDeepFiles(filePath);

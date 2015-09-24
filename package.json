@@ -19,11 +19,11 @@
     "crypto": "0.0.3",
     "fs": "0.0.2",
     "http": "0.0.0",
+    "is-video": "^1.0.1",
     "meow": "^3.3.0",
     "path": "^0.11.14",
     "progress": "^1.1.8",
-    "q": "^1.4.1",
-    "video-extensions": "^1.0.0"
+    "q": "^1.4.1"
   },
   "devDependencies": {
     "tape": "^4.2.0"
