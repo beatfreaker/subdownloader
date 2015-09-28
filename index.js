@@ -12,9 +12,11 @@ var meow = require('meow');
 var p = process.cwd();
 var filesArray = [];
 
-subd.subdownload = function(filelist, opts) {
+subd.subdownload = function(fileList, opts) {
+	var defered = Q.defer();
     var opts = opts || {};
-    console.log("first called");  
+	processFiles(fileList, 0).then(function(){console.log("hell");defered.resolve('done');});
+	return defered.promise;
 };
 
 var processFiles = function (fileList, index) {
