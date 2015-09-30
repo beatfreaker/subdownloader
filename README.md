@@ -18,24 +18,25 @@ npm install -g subdownloader
 
 - To download subtitles for all the movies in a folder execute.
 
-  `subdownload`
+  `> subdownload`
 - To download subtitles for single movie execute.
 
-  `subdownload "Movie Name"`
+  `> subdownload "Movie Name"`
 - To download subtitles for more then one movie but not all movies in a folder execute.
   
-  `subdownload "Movie 1" "Movie 2" .... "Movie n"`
+  `> subdownload "Movie 1" "Movie 2" .... "Movie n"`
 - To enable deep download means to download subtitles for files in a folder as well as subfolders.
 	
-	`subdownload --deep`
-- Use `subdownload --help` for listing all the options available.
+  `> subdownload --deep`
+- Use `> subdownload --help` for listing all the options available.
 
 ##API
 
 ```js
 var subd = require('subdownloader');
 
-//filesArray - is the array of path to the files for which you want to download the subtitles
+//filesArray - is the array of path to the files for which 
+//you want to download the subtitles
 //obj - in return you will return an object having success and failed files array
 subd.subdownload(filesArray).then(function(obj){
 	console.log(obj);
