@@ -10,9 +10,8 @@ npm install -g subdownloader
 
 ## How to use
 
-- After installation navigate to the folder `cd subdownloader`
-- Execute `npm link`
-- Now navigate to any folder where movies or TV series files are present through command prompt and execute `subdownload` command and let all the magic happens.
+- Navigate to the folder in which you have the file for which you want to download subtitles through command prompt.
+- Execute `subdownload` command and let all the magic happens.
 - `sd` is a shorthand command. You can use `sd` instead of `subdownload`
 
 ## Options
@@ -30,6 +29,19 @@ npm install -g subdownloader
 	
 	`subdownload --deep`
 - Use `subdownload --help` for listing all the options available.
+
+##API
+
+```js
+var subd = require('subdownloader');
+
+//filesArray - is the array of path to the files for which you want to download the subtitles
+//obj - in return you will return an object having success and failed files array
+subd.subdownload(filesArray).then(function(obj){
+	console.log(obj);
+	//=> { success: [successfile1,successfile2], failed: [failedfile1]}
+});
+```
 
 ## Demo
 
