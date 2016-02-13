@@ -6,6 +6,8 @@ var path = require('path');
 var Q = require('q');
 var isVideo = require('is-video');
 var meow = require('meow');
+var ProgressBar = require('progress');
+var chalk = require('chalk');
 var p = process.cwd();
 var filesArray = [];
 
@@ -71,13 +73,41 @@ var getDeepFiles = function (currentDir) {
 	});
 };
 
+var startDownload = function (filesArray) {
+	var bar;
+	var progressBarMessage;
+	var green = '\u001b[42m \u001b[0m';
+	subd.on('processing', function(obj) {
+		//console.log('Processing :: ' + obj.fileName + '  ' + progressBarMessage);
+		progressBarMessage = 'Downloading ' + chalk.bgBlue.bold(obj.fileName) + ' [:bar] :percent :etas | :current of :total bytes';
+	})
+	.on('response', function(obj, res) {
+		var len = parseInt(res.headers['content-length'], 10);
+		bar = new ProgressBar(progressBarMessage, {
+			complete: green,
+			incomplete: '-',
+			width: 10,
+			total: len
+		});
+	})
+	.on('data', function(obj, chunk) {
+		bar.tick(chunk.length);
+	})
+	.on('end', function(obj, res) {
+		if(res.statusCode !== '200') {
+			console.log('Sorry no subitles were found for ====> ' + chalk.bgRed.bold(obj.fileName));
+		}console.log('\n');
+	});
+	subd.subdownload(filesArray);
+};
+
 var getPara = function () {
 	if (cli.flags.deep) {
 		getDeepFiles(p);
-		subd.subdownload(filesArray);
+		startDownload(filesArray);
 	} else {
 		getFileList().then(function (data) {
-			subd.subdownload(data);
+			startDownload(data);
 		});
 	}
 };
