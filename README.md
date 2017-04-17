@@ -30,7 +30,7 @@ npm install -g subdownloader
   `> subdownload --deep`
 - Use `> subdownload --help` for listing all the options available.
 
-##API
+## API
 
 ```js
 var subd = require('subdownloader');
