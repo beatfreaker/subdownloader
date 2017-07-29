@@ -35,13 +35,21 @@ var getHash = function (obj) {
 var downloadSubtitle = function (obj) {
 	return new Promise(function (resolve, reject) {
 		var srtFileName = path.basename(obj.fileName, path.extname(obj.fileName)) + '.srt';
+		if (obj.langInExt) {
+			var ext = 'eng';
+			if (obj.lang === 'fr') {
+				ext = 'fre';
+			}
+			// TODO : add more langs if needed
+			srtFileName = srtFileName.replace('.srt', '.' + ext + '.srt');
+		}
 		var srtFilePathName = path.dirname(obj.fileName) + '/' + srtFileName;
 		var finalData = '';
 		var green = '\u001b[42m \u001b[0m';
 		exp.emit('processing', obj);
 		var options = {
 			hostname: 'api.thesubdb.com',
-			path: '/?action=download&hash=' + obj.hash + '&language=en',
+			path: '/?action=download&hash=' + obj.hash + '&language=' + obj.lang,
 			method: 'GET',
 			headers: {'user-agent': 'SubDB/1.0'}
 		};
@@ -72,9 +80,15 @@ var downloadSubtitle = function (obj) {
 	});
 };
 
-var processFiles = function (arr) {
+var processFiles = function (arr, opt) {
+	// set the subtitle language, default to english
+	var lang = (opt && opt.lang && opt.lang.length) ? opt.lang : 'en';
+	// set boolean that will add the lang in sub extension or not
+	var langInExt = !!(opt && opt.langInExt);
 	return arr.reduce(function (promise, file) {
 		return promise.then(function () {
+			obj.lang = lang;
+			obj.langInExt = langInExt;
 			obj.fileName = file;
 			exp.emit('processing', obj);
 			return getHash(obj).then(function (obj) {
@@ -87,7 +101,7 @@ var processFiles = function (arr) {
 exp.subdownload = function (fileList, opt) {
 	opt = opt || {};
 	return new Promise(function (resolve, reject) {
-		processFiles(fileList).then(function () {
+		processFiles(fileList, opt).then(function () {
 			resolve(returnObj);
 		});
 	});

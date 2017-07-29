@@ -73,7 +73,7 @@ var getDeepFiles = function (currentDir) {
 	});
 };
 
-var startDownload = function (filesArray) {
+var startDownload = function (filesArray, opt) {
 	var bar;
 	var progressBarMessage;
 	var green = '\u001b[42m \u001b[0m';
@@ -81,24 +81,24 @@ var startDownload = function (filesArray) {
 		//console.log('Processing :: ' + obj.fileName + '  ' + progressBarMessage);
 		progressBarMessage = 'Downloading ' + chalk.bgBlue.bold(obj.fileName) + ' [:bar] :percent :etas | :current of :total bytes';
 	})
-	.on('response', function(obj, res) {
-		var len = parseInt(res.headers['content-length'], 10);
-		bar = new ProgressBar(progressBarMessage, {
-			complete: green,
-			incomplete: '-',
-			width: 10,
-			total: len
+		.on('response', function(obj, res) {
+			var len = parseInt(res.headers['content-length'], 10);
+			bar = new ProgressBar(progressBarMessage, {
+				complete: green,
+				incomplete: '-',
+				width: 10,
+				total: len
+			});
+		})
+		.on('data', function(obj, chunk) {
+			bar.tick(chunk.length);
+		})
+		.on('end', function(obj, res) {
+			if(res.statusCode !== '200') {
+				console.log('Sorry no ' + obj.lang + ' subitles were found for ====> ' + chalk.bgRed.bold(obj.fileName));
+			}console.log('\n');
 		});
-	})
-	.on('data', function(obj, chunk) {
-		bar.tick(chunk.length);
-	})
-	.on('end', function(obj, res) {
-		if(res.statusCode !== '200') {
-			console.log('Sorry no subitles were found for ====> ' + chalk.bgRed.bold(obj.fileName));
-		}console.log('\n');
-	});
-	subd.subdownload(filesArray);
+	subd.subdownload(filesArray, opt);
 };
 
 var getPara = function () {
@@ -107,7 +107,7 @@ var getPara = function () {
 		startDownload(filesArray);
 	} else {
 		getFileList().then(function (data) {
-			startDownload(data);
+			startDownload(data, cli.flags);
 		});
 	}
 };
