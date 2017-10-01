@@ -16,6 +16,8 @@ var cli = meow({
 		'Help\n',
 		'  > subdownload\n',
 		'		To download subtitles for all the files present in current folder\n',
+		'  > subdownload --listLangs\n',
+		'		To list available languages for subtitl\n',
 		'  > subdownload --deep\n',
 		'		To download subtitles for all the files present in current folder as well as in subfolder\n',
 		'  > subdownload "File Name.mkv"\n',
@@ -105,6 +107,10 @@ var getPara = function () {
 	if (cli.flags.deep) {
 		getDeepFiles(p);
 		startDownload(filesArray);
+	} else if(cli.flags.listLangs) {
+		subd.listLanguages().then(function (langs) {
+			console.log(langs);
+		});
 	} else {
 		getFileList().then(function (data) {
 			startDownload(data, cli.flags);

@@ -32,6 +32,26 @@ var getHash = function (obj) {
 	});
 };
 
+exp.listLanguages = function () {
+	return new Promise(function (resolve, reject) {
+		var options = {
+			hostname: 'api.thesubdb.com',
+			path: '/?action=languages',
+			method: 'GET',
+			headers: {'user-agent': 'SubDB/1.0'}
+		};
+		var lang = '';
+		http.get(options, function (res) {
+			res.on('data', function (d) {
+				lang += d;
+			});
+			res.on('end', function() {
+				resolve(lang);
+			});
+		});
+	});
+};
+
 var downloadSubtitle = function (obj) {
 	return new Promise(function (resolve, reject) {
 		var srtFileName = path.basename(obj.fileName, path.extname(obj.fileName)) + '.srt';
