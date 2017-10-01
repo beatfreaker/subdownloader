@@ -23,6 +23,9 @@ npm install -g subdownloader
 
   `> subdownload "Movie Name"`
 - To download subtitles for more then one movie but not all movies in a folder execute.
+
+`> subdownload "Movie Name" --lang=fr`
+- To download subtitles of specific language.
   
   `> subdownload "Movie 1" "Movie 2" .... "Movie n"`
 - To enable deep download means to download subtitles for files in a folder as well as subfolders.
