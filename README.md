@@ -21,6 +21,9 @@ npm install -g subdownloader
   `> subdownload`
 - To download subtitles for single movie execute.
 
+  `> subdownload --listLangs`
+- To list available languages for subtitle.
+
   `> subdownload "Movie Name"`
 - To download subtitles for more then one movie but not all movies in a folder execute.
 
